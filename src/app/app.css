@@ -1,0 +1,224 @@
+/* ====== Root theme tokens ====== */
+:root{
+  --bg: #0b0f1a;
+  --bg-accent: radial-gradient(1200px 800px at 20% 10%, #1b2440 0%, transparent 55%),
+               radial-gradient(900px 700px at 80% 90%, #162033 0%, transparent 50%),
+               linear-gradient(180deg, #0a0f1a 0%, #0b0f1a 100%);
+  --card-bg: 255,255,255;         /* used with alpha for glass */
+  --card-bg-dark: 15, 20, 35;
+  --fg: #0d1321;
+  --fg-muted: #4b5563;
+  --fg-strong: #111827;
+  --brand: #6ea8ff;
+  --brand-2: #9b8cff;
+  --ok: #22c55e;
+  --warn: #f59e0b;
+  --err: #ef4444;
+  --ring: #7dd3fc;
+  --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+  --radius: 18px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --fg: #e5e7eb;
+    --fg-muted: #94a3b8;
+    --fg-strong: #f3f4f6;
+  }
+}
+
+/* ====== Page canvas ====== */
+html, body, app-root, .app{
+  height: 100%;
+}
+body{
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--fg);
+  background: var(--bg-accent), var(--bg);
+  background-attachment: fixed;
+}
+
+/* Centered layout */
+.app{
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+
+/* ====== Glass window/card ====== */
+.card{
+  width: min(960px, 92vw);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  background: linear-gradient(180deg, rgba(var(--card-bg-dark), .56), rgba(var(--card-bg-dark), .42));
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  padding: clamp(20px, 4vw, 36px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative shine */
+.card::after{
+  content: "";
+  position: absolute;
+  inset: -200px -40% auto -40%;
+  height: 320px;
+  background: radial-gradient(closest-side, rgba(110,168,255,.25), transparent 70%);
+  transform: rotate(-6deg);
+  pointer-events: none;
+  filter: blur(18px);
+}
+
+/* Headings */
+.h1{
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.1;
+  margin: 0 0 14px 0;
+  letter-spacing: .3px;
+}
+.h2{
+  font-size: clamp(18px, 2.4vw, 22px);
+  margin: 26px 0 10px;
+  color: var(--fg-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+
+/* ====== Centered logo ====== */
+.logo{
+  width: clamp(84px, 12vw, 120px);
+  height: clamp(84px, 12vw, 120px);
+  margin: 8px auto 18px;
+  border-radius: 22%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(110,168,255,.22), rgba(155,140,255,.22));
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 6px 24px rgba(110,168,255,.25), inset 0 1px 0 rgba(255,255,255,.2);
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+.logo img{
+  width: 64%;
+  height: 64%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.25));
+}
+
+/* subtle pulse */
+@keyframes breathe {
+  0%, 100% { transform: translateZ(0) scale(1); box-shadow: 0 6px 24px rgba(110,168,255,.25), inset 0 1px 0 rgba(255,255,255,.2); }
+  50% { transform: translateZ(0) scale(1.015); box-shadow: 0 10px 34px rgba(155,140,255,.32), inset 0 1px 0 rgba(255,255,255,.25); }
+}
+.logo{ animation: breathe 4.5s ease-in-out infinite; }
+
+/* ====== Content grid ====== */
+.grid{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+}
+.section{ grid-column: span 12; }
+@media (min-width: 780px){
+  .section.half{ grid-column: span 6; }
+}
+
+/* ====== Button ====== */
+.btn{
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 18px;
+  min-height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(125, 211, 252, .35);
+  background: linear-gradient(180deg, rgba(125,211,252,.18), rgba(110,168,255,.18)) padding-box,
+              linear-gradient(180deg, rgba(255,255,255,.45), rgba(255,255,255,.05)) border-box;
+  color: var(--fg-strong);
+  font-weight: 700;
+  letter-spacing: .01em;
+  transition: transform .08s ease, box-shadow .2s ease, filter .2s ease, background .2s ease;
+  box-shadow: 0 8px 20px rgba(110,168,255,.25);
+}
+.btn:hover{
+  filter: brightness(1.05);
+  box-shadow: 0 10px 26px rgba(110,168,255,.32);
+}
+.btn:active{
+  transform: translateY(1px) scale(.99);
+}
+.btn:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(125, 211, 252, .35), 0 8px 22px rgba(110,168,255,.28);
+}
+
+/* Secondary/ghost variant */
+.btn.ghost{
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border-color: rgba(255,255,255,.16);
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+
+/* ====== Input + two-way binding box ====== */
+.input{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.18);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+  color: var(--fg);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.2);
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.input::placeholder{ color: var(--fg-muted); }
+.input:focus{
+  outline: none;
+  border-color: rgba(125, 211, 252, .5);
+  box-shadow: 0 0 0 4px rgba(125, 211, 252, .22), inset 0 2px 8px rgba(0,0,0,.25);
+}
+
+/* Small info chips */
+.badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: linear-gradient(180deg, rgba(110,168,255,.18), rgba(155,140,255,.14));
+  border: 1px solid rgba(255,255,255,.16);
+}
+
+/* Divider */
+.hr{
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  margin: 18px 0;
+  border: 0;
+}
+
+/* Utility spacing */
+.mt-6{ margin-top: 24px; }
+.mt-2{ margin-top: 8px; }
+.center{ text-align: center; }
+
+/* Anim in */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card, .btn, .input, .badge, .logo, .h1, .h2{ animation: rise .5s ease both; }
+
+/* Optional: make numbers for click counter pop */
+.counter{
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}

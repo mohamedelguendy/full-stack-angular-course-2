@@ -1,14 +1,16 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { AboutComponent } from './about.component/about.component';
-import { UserLitsComponent } from './user-lits.component/user-lits.component';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet, AboutComponent, UserLitsComponent],
+  selector: 'app-main',
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css'] 
 })
-export class AppComponent {
-  protected readonly title = signal('my-app');
+export class App {
+  count = 0;
+  username = '';
+  protected readonly title = signal('project');
+
+  onClick() {
+    this.count++;
+  }
 }
